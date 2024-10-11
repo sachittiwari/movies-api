@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-movies
+      author: sachittiwari
+      changes:
+        - createTable:
+            tableName: MOVIES
+            columns:
+              - column:
+                  name: MOVIE_ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: MOVIE_TITLE
+                  type: VARCHAR(200)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: BOX_OFFICE_VALUE
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: false
+              - column:
+                  name: RATING
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: false
+            remarks: "Create Movies table"
