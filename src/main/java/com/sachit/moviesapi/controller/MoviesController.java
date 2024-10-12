@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -39,14 +40,14 @@ public class MoviesController {
                     content=@Content(mediaType = "application/json",schema = @Schema()))
     })
     @GetMapping("/getTop10MoviesBasedOnBoxOffice")
-    public ResponseEntity<List<MoviesResponseDTO>> getTop10MoviesBasedOnBoxOffice() {
+    public List<MoviesResponseDTO> getTop10MoviesBasedOnBoxOffice() {
         try {
             List<MoviesResponseDTO> movies = moviesService.getTop10MoviesBasedOnBoxOffice();
-            return ResponseEntity.ok(movies);
+            return movies;
         }
         catch(Exception e){
             log.error("Error occurred while fetching top 10 movies based on box office value", e);
-            return ResponseEntity.status(500).build();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Unable to fetch the details");
         }
     }
 
@@ -59,14 +60,14 @@ public class MoviesController {
                     content=@Content(mediaType = "application/json",schema = @Schema()))
     })
     @PostMapping("/provideRating")
-    public ResponseEntity<MoviesResponseDTO> provideRating(@Valid @RequestBody MoviesRequestDTO movie) {
+    public MoviesResponseDTO provideRating(@Valid @RequestBody MoviesRequestDTO movie) {
         try {
             MoviesResponseDTO newRating = moviesService.submitRating(movie.getMovieTitle(), movie.getRating());
-            return ResponseEntity.ok(newRating);
+            return newRating;
         }
         catch(Exception e){
             log.error("No Movie Available with the given name", e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No movie available with the given name");
         }
     }
 
@@ -79,14 +80,14 @@ public class MoviesController {
                     content=@Content(mediaType = "text/plain",schema = @Schema()))
     })
     @PostMapping("/checkOscarWon")
-    public ResponseEntity<String> wonOscar(@Parameter(description = "Provide the Title of the Movie") @RequestParam String movieTitle) {
+    public String wonOscar(@Parameter(description = "Provide the Title of the Movie") @RequestParam String movieTitle) {
         try {
             Boolean wonOscar = moviesService.checkIfMovieWonOscar(movieTitle);
-            return ResponseEntity.ok(wonOscar.toString());
+            return wonOscar.toString();
         }
         catch(Exception e){
             log.error("No Movie Available with the given name", e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No movie available with the given name");
         }
     }
 

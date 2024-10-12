@@ -24,7 +24,7 @@ public class MoviesWebSecurityConfig{
                         //authenticate all requests to /movies/**
                         .requestMatchers("/movies/**").authenticated()
                         //permit all requests to swagger ui and api docs
-                        .requestMatchers("/swagger-ui/**","/swagger-ui.html","v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui/**","/swagger-ui.html","v3/api-docs/**","/error").permitAll()
                         //deny all other requests
                         .anyRequest().denyAll())
                 //add the custom filter before the UsernamePasswordAuthenticationFilter
