@@ -2,6 +2,7 @@ package com.sachit.moviesapi.util;
 
 import com.opencsv.CSVReader;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -21,8 +22,10 @@ public class CsvReaderOscarWinners {
      */
     public HashSet<String> readOscarWinners(String csvFilePath) {
         HashSet<String> oscarWinners = new HashSet<>();
-        try {
-            try (CSVReader reader = new CSVReader(new FileReader(csvFilePath))) {
+        //read data from classpath rather than absolute path
+        ClassPathResource classPathResource = new ClassPathResource(csvFilePath);
+
+            try (CSVReader reader = new CSVReader(new InputStreamReader(classPathResource.getInputStream()))) {
                 List<String[]> records = reader.readAll();
 
                 for (String[] record : records) {
@@ -34,7 +37,7 @@ public class CsvReaderOscarWinners {
                         oscarWinners.add(nominee);
                     }
                 }
-            }
+
 
         } catch (Exception e) {
             log.error("Unable to capture data from csv file", e);

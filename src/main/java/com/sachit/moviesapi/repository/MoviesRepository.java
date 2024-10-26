@@ -12,5 +12,5 @@ public interface MoviesRepository extends CrudRepository<Movies, Long> {
 
     public List<Movies> findTop10ByOrderByBoxOfficeValueDesc();
 
-    public Optional<Movies> findByMovieTitle(String movieTitle);
+    public Optional<Movies> findByMovieTitleIgnoreCase(String movieTitle);
 }

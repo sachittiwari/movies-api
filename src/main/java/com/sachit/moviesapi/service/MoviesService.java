@@ -96,7 +96,7 @@ public class MoviesService {
      * @return The updated movie details
      */
     public MoviesResponseDTO submitRating(String movieTitle, Double ratingValue) throws Exception{
-        Optional<Movies> existingMovie = moviesRepository.findByMovieTitle(movieTitle);
+        Optional<Movies> existingMovie = moviesRepository.findByMovieTitleIgnoreCase(movieTitle);
         if (!existingMovie.isPresent()) {
             log.info("Movie not present in DB with title: {}", movieTitle);
             Long newMovieId = saveOMDBData(movieTitle);
@@ -117,7 +117,7 @@ public class MoviesService {
      */
     public Boolean checkIfMovieWonOscar(String movieTitle) throws Exception{
         Boolean didMovieWinOscar = false;
-        Optional<Movies> existingMovie = moviesRepository.findByMovieTitle(movieTitle);
+        Optional<Movies> existingMovie = moviesRepository.findByMovieTitleIgnoreCase(movieTitle);
         if (!existingMovie.isPresent()) {
             log.info("Movie not present in DB with title: {}", movieTitle);
             saveOMDBData(movieTitle);

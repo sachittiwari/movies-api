@@ -1,7 +1,6 @@
 package com.sachit.moviesapi.util;
 
 import com.sachit.moviesapi.model.OmdbResponse;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -10,8 +9,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,34 +27,18 @@ public class MoviesUtilTest {
     CsvReaderOscarWinners csvReaderOscarWinners;
 
 
-    private static Path tempCsvFile;
-
     @BeforeEach
     public void setUp() throws IOException {
         MockitoAnnotations.openMocks(this);
-        // Create a temporary CSV file for testing
-        tempCsvFile = Files.createTempFile("oscar_winners", ".csv");
-    }
-
-    @AfterEach
-    public void tearDown() throws IOException {
-        // Delete the temporary file after each test
-        Files.deleteIfExists(tempCsvFile);
     }
 
     @Test
     public void testReadOscarWinners_HappyPath() throws IOException {
-        // Create a CSV content with Best Picture winners
-        String csvContent = "Year,Category,Nominee,SomeColumn,Won\n" +
-                "2020,Best Picture,Movie1,,YES\n" +
-                "2021,Best Picture,Movie2,,YES\n" +
-                "2021,Best Actor,Actor1,,NO\n";
-
-        // Write the CSV content to the temporary file
-        Files.write(tempCsvFile, csvContent.getBytes());
+        //Read the csv from classpath
+        String csvFile = "oscar_winners.csv";
 
         // Call the method
-        HashSet<String> result = csvReaderOscarWinners.readOscarWinners(tempCsvFile.toString());
+        HashSet<String> result = csvReaderOscarWinners.readOscarWinners(csvFile);
 
         // Assert the result
         assertNotNull(result);
@@ -68,16 +49,11 @@ public class MoviesUtilTest {
 
     @Test
     public void testReadOscarWinners_NoBestPictureWinners() throws IOException {
-        // Create a CSV content without any Best Picture winners
-        String csvContent = "Year,Category,Nominee,SomeColumn,Won\n" +
-                "2020,Best Actor,Actor1,,NO\n" +
-                "2021,Best Director,Director1,,YES\n";
-
-        // Write the CSV content to the temporary file
-        Files.write(tempCsvFile, csvContent.getBytes());
+        //Read csv from classpath
+        String csvFile = "oscar_winners_no_best_picture.csv";
 
         // Call the method
-        HashSet<String> result = csvReaderOscarWinners.readOscarWinners(tempCsvFile.toString());
+        HashSet<String> result = csvReaderOscarWinners.readOscarWinners(csvFile);
 
         // Assert the result
         assertNotNull(result);

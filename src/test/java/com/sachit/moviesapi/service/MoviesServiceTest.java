@@ -112,7 +112,7 @@ public class MoviesServiceTest {
 
 
         //Mock
-        when(moviesRepository.findByMovieTitle("Movie1")).thenReturn(Optional.of(movies));
+        when(moviesRepository.findByMovieTitleIgnoreCase("Movie1")).thenReturn(Optional.of(movies));
         when(moviesMapper.toMoviesResponseDTO(movies)).thenReturn(moviesResponseDTO);
         when(moviesRepository.save(any())).thenReturn(movies);
 
@@ -123,7 +123,7 @@ public class MoviesServiceTest {
         assertEquals("Movie1", updatedMovieWithRating.getMovieTitle());
         assertEquals(8.5, updatedMovieWithRating.getRating());
 
-        verify(moviesRepository,times(1)).findByMovieTitle("Movie1");
+        verify(moviesRepository,times(1)).findByMovieTitleIgnoreCase("Movie1");
         verify(moviesRepository,times(1)).save(movies);
 
 
@@ -142,7 +142,7 @@ public class MoviesServiceTest {
 
 
         //Mock
-        when(moviesRepository.findByMovieTitle("Movie1")).thenReturn(Optional.empty());
+        when(moviesRepository.findByMovieTitleIgnoreCase("Movie1")).thenReturn(Optional.empty());
         doReturn(1l).when(moviesService).saveOMDBData("Movie1");
         when(moviesRepository.findById(1L)).thenReturn(Optional.of(movies));
         when(moviesMapper.toMoviesResponseDTO(movies)).thenReturn(moviesResponseDTO);
@@ -155,7 +155,7 @@ public class MoviesServiceTest {
         assertEquals("Movie1", updatedMovieWithRating.getMovieTitle());
         assertEquals(8.5, updatedMovieWithRating.getRating());
 
-        verify(moviesRepository,times(1)).findByMovieTitle("Movie1");
+        verify(moviesRepository,times(1)).findByMovieTitleIgnoreCase("Movie1");
         verify(moviesRepository,times(1)).save(movies);
 
 
@@ -172,7 +172,7 @@ public class MoviesServiceTest {
         set.add("Movie1");
 
         //Mock repository
-        when(moviesRepository.findByMovieTitle("Movie1")).thenReturn(Optional.of(movies));
+        when(moviesRepository.findByMovieTitleIgnoreCase("Movie1")).thenReturn(Optional.of(movies));
         //mock the static method for CSV Reader
         when(csvReaderOscarWinners.readOscarWinners(anyString())).thenReturn(set);
 
@@ -182,7 +182,7 @@ public class MoviesServiceTest {
         //Assertions
         assertTrue(result);
 
-        verify(moviesRepository,times(1)).findByMovieTitle("Movie1");
+        verify(moviesRepository,times(1)).findByMovieTitleIgnoreCase("Movie1");
 
 
     }
@@ -199,7 +199,7 @@ public class MoviesServiceTest {
 
 
         //Mock repository
-        when(moviesRepository.findByMovieTitle("Movie1")).thenReturn(Optional.empty());
+        when(moviesRepository.findByMovieTitleIgnoreCase("Movie1")).thenReturn(Optional.empty());
         doReturn(1l).when(moviesService).saveOMDBData("Movie2");
         //mock the static method for CSV Reader
         when(csvReaderOscarWinners.readOscarWinners(anyString())).thenReturn(set);
@@ -210,7 +210,7 @@ public class MoviesServiceTest {
         //Assertions
         assertFalse(result);
 
-        verify(moviesRepository,times(1)).findByMovieTitle("Movie2");
+        verify(moviesRepository,times(1)).findByMovieTitleIgnoreCase("Movie2");
 
 
     }
