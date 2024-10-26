@@ -62,7 +62,7 @@ public class MoviesService {
      * @return List of top 10 Movies based on Box Office Value
      */
     public List<MoviesResponseDTO> getTop10MoviesBasedOnBoxOffice() {
-         return moviesRepository.findTop10ByOrderByBoxOfficeValueDesc()
+         return moviesRepository.findTop10ByRatingOrderByBoxOfficeValueDesc()
                 .stream()
                 .map(moviesMapper::toMoviesResponseDTO)
                 .collect(Collectors.toList());

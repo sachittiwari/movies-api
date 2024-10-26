@@ -76,7 +76,7 @@ public class MoviesServiceTest {
         movies.setRating(4.5);
 
         //Mock repository
-        when(moviesRepository.findTop10ByOrderByBoxOfficeValueDesc()).thenReturn(Arrays.asList(movies));
+        when(moviesRepository.findTop10ByRatingOrderByBoxOfficeValueDesc()).thenReturn(Arrays.asList(movies));
 
         //Mock the mapper method
         MoviesResponseDTO moviesResponseDTO = new MoviesResponseDTO();
@@ -95,7 +95,7 @@ public class MoviesServiceTest {
         assertEquals(1000000.0, moviesResponseDTOList.get(0).getBoxOfficeValue());
         assertEquals(4.5, moviesResponseDTOList.get(0).getRating());
 
-        verify(moviesRepository,times(1)).findTop10ByOrderByBoxOfficeValueDesc();
+        verify(moviesRepository,times(1)).findTop10ByRatingOrderByBoxOfficeValueDesc();
 
     }
 
