@@ -13,7 +13,6 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -42,7 +41,7 @@ public class MoviesController {
     @GetMapping("/getTop10MoviesBasedOnBoxOffice")
     public List<MoviesResponseDTO> getTop10MoviesBasedOnBoxOffice() {
         try {
-            List<MoviesResponseDTO> movies = moviesService.getTop10MoviesBasedOnBoxOffice();
+            List<MoviesResponseDTO> movies = moviesService.getTop10MoviesBasedOnRatingDescBoxOfficeDesc();
             return movies;
         }
         catch(Exception e){

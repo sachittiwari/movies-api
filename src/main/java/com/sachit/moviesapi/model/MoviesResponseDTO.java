@@ -6,7 +6,7 @@ public class MoviesResponseDTO {
 
     private String movieId;
     private String movieTitle;
-    private Double boxOfficeValue;
+    private String boxOfficeValue;
     private Double rating;
 
 }

@@ -45,22 +45,22 @@ public class MoviesControllerTest {
 
 
     @Test
-    public void testGetTop10MoviesBasedOnBoxOffice() throws Exception {
+    public void testGetTop10MoviesBasedOnRatingOrderByBoxOffice() throws Exception {
         //Arrange
         MoviesResponseDTO movie1 = new MoviesResponseDTO();
         movie1.setMovieId("1");
         movie1.setMovieTitle("Movie1");
-        movie1.setBoxOfficeValue(1000000.0);
+        movie1.setBoxOfficeValue("$100");
         movie1.setRating(4.5);
 
         MoviesResponseDTO movie2 = new MoviesResponseDTO();
         movie2.setMovieId("2");
         movie2.setMovieTitle("Movie2");
-        movie2.setBoxOfficeValue(2000000.0);
+        movie2.setBoxOfficeValue("$200");
         movie2.setRating(4.0);
 
         //Mock the service
-        when(moviesService.getTop10MoviesBasedOnBoxOffice()).thenReturn(Arrays.asList(movie1, movie2));
+        when(moviesService.getTop10MoviesBasedOnRatingDescBoxOfficeDesc()).thenReturn(Arrays.asList(movie1, movie2));
 
         //Act and Assert
         mockMvc.perform(get("/movies/getTop10MoviesBasedOnBoxOffice")
@@ -69,19 +69,19 @@ public class MoviesControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].movieId").value("1"))
                 .andExpect(jsonPath("$[0].movieTitle").value("Movie1"))
-                .andExpect(jsonPath("$[0].boxOfficeValue").value(1000000.0))
+                .andExpect(jsonPath("$[0].boxOfficeValue").value("$100"))
                 .andExpect(jsonPath("$[0].rating").value(4.5))
                 .andExpect(jsonPath("$[1].movieId").value("2"))
                 .andExpect(jsonPath("$[1].movieTitle").value("Movie2"))
-                .andExpect(jsonPath("$[1].boxOfficeValue").value(2000000.0))
+                .andExpect(jsonPath("$[1].boxOfficeValue").value("$200"))
                 .andExpect(jsonPath("$[1].rating").value(4.0));
 
-        verify(moviesService, times(1)).getTop10MoviesBasedOnBoxOffice();
+        verify(moviesService, times(1)).getTop10MoviesBasedOnRatingDescBoxOfficeDesc();
 
     }
 
     @Test
-    public void testGetTop10MoviesBasedOnBoxOfficeWithoutApiKey() throws Exception {
+    public void testGetTop10MoviesBasedOnRatingDescBoxOfficeDescWithoutApiKey() throws Exception {
 
         //Act and Assert
         mockMvc.perform(get("/movies/getTop10MoviesBasedOnBoxOffice"))
@@ -90,9 +90,9 @@ public class MoviesControllerTest {
     }
 
     @Test
-    public void testGetTop10MoviesBasedOnBoxOfficeThrowsError() throws Exception {
+    public void testGetTop10MoviesBasedOnRatingDescBoxOfficeDescThrowsError() throws Exception {
         //Mock the service
-        when(moviesService.getTop10MoviesBasedOnBoxOffice()).thenThrow(new RuntimeException("Error occurred while fetching top 10 movies based on box office value"));
+        when(moviesService.getTop10MoviesBasedOnRatingDescBoxOfficeDesc()).thenThrow(new RuntimeException("Error occurred while fetching top 10 movies based on box office value"));
 
 
         //Act and Assert
@@ -112,7 +112,7 @@ public class MoviesControllerTest {
         MoviesResponseDTO movie1 = new MoviesResponseDTO();
         movie1.setMovieId("1");
         movie1.setMovieTitle("Movie1");
-        movie1.setBoxOfficeValue(1000000.0);
+        movie1.setBoxOfficeValue("$100");
         movie1.setRating(4.5);
 
         //Mock the service
@@ -126,7 +126,7 @@ public class MoviesControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.movieId").value("1"))
                 .andExpect(jsonPath("$.movieTitle").value("Movie1"))
-                .andExpect(jsonPath("$.boxOfficeValue").value(1000000.0))
+                .andExpect(jsonPath("$.boxOfficeValue").value("$100"))
                 .andExpect(jsonPath("$.rating").value(4.5));
 
         verify(moviesService, times(1)).submitRating("Movie1", 4.5);

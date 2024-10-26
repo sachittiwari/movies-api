@@ -67,12 +67,12 @@ public class MoviesServiceTest {
     }
 
     @Test
-    public void testGetTop10MoviesBasedOnBoxOffice() {
+    public void testGetTop10MoviesBasedOnRatingDescBoxOfficeDesc() {
         //Arrange
         Movies movies = new Movies();
         movies.setMovieId(1L);
         movies.setMovieTitle("Movie1");
-        movies.setBoxOfficeValue(1000000.0);
+        movies.setBoxOfficeValue("$100");
         movies.setRating(4.5);
 
         //Mock repository
@@ -82,17 +82,17 @@ public class MoviesServiceTest {
         MoviesResponseDTO moviesResponseDTO = new MoviesResponseDTO();
         moviesResponseDTO.setMovieId("1");
         moviesResponseDTO.setMovieTitle("Movie1");
-        moviesResponseDTO.setBoxOfficeValue(1000000.0);
+        moviesResponseDTO.setBoxOfficeValue("$100");
         moviesResponseDTO.setRating(4.5);
         when(moviesMapper.toMoviesResponseDTO(movies)).thenReturn(moviesResponseDTO);
 
         //Call the service method
-        List<MoviesResponseDTO> moviesResponseDTOList = moviesService.getTop10MoviesBasedOnBoxOffice();
+        List<MoviesResponseDTO> moviesResponseDTOList = moviesService.getTop10MoviesBasedOnRatingDescBoxOfficeDesc();
 
         //Assertions
         assertEquals(1, moviesResponseDTOList.size());
         assertEquals("Movie1", moviesResponseDTOList.get(0).getMovieTitle());
-        assertEquals(1000000.0, moviesResponseDTOList.get(0).getBoxOfficeValue());
+        assertEquals("$100", moviesResponseDTOList.get(0).getBoxOfficeValue());
         assertEquals(4.5, moviesResponseDTOList.get(0).getRating());
 
         verify(moviesRepository,times(1)).findTop10ByRatingOrderByBoxOfficeValueDesc();
@@ -221,12 +221,12 @@ public class MoviesServiceTest {
         Movies movies = new Movies();
         movies.setMovieId(100L);
         movies.setMovieTitle("Movie3");
-        movies.setBoxOfficeValue(1000000.0);
+        movies.setBoxOfficeValue("$100");
         movies.setRating(4.5);
 
         OmdbResponse omdbResponse = new OmdbResponse();
         omdbResponse.setTitle("Movie3");
-        omdbResponse.setBoxOffice("$1000000");
+        omdbResponse.setBoxOffice("$100");
         omdbResponse.setImdbRating(4.5);
 
         //Mock

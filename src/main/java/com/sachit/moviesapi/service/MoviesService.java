@@ -61,7 +61,7 @@ public class MoviesService {
      *
      * @return List of top 10 Movies based on Box Office Value
      */
-    public List<MoviesResponseDTO> getTop10MoviesBasedOnBoxOffice() {
+    public List<MoviesResponseDTO> getTop10MoviesBasedOnRatingDescBoxOfficeDesc() {
          return moviesRepository.findTop10ByRatingOrderByBoxOfficeValueDesc()
                 .stream()
                 .map(moviesMapper::toMoviesResponseDTO)
@@ -80,7 +80,7 @@ public class MoviesService {
         OmdbResponse response = omdbApiHelper.getOmdbData(movieTitle, omdbBaseUrl, omdbApiKey,restTemplate);
         Movies movie = new Movies();
         movie.setMovieTitle(response.getTitle());
-        movie.setBoxOfficeValue(Double.parseDouble(response.getBoxOffice().replace("$","").replace(",","")));
+        movie.setBoxOfficeValue(response.getBoxOffice());
         movie.setRating(response.getImdbRating());
         Long movieId = moviesRepository.save(movie).getMovieId();
         return movieId;

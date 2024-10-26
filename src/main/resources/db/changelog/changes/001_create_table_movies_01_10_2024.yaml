@@ -21,7 +21,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: BOX_OFFICE_VALUE
-                  type: DOUBLE PRECISION
+                  type: VARCHAR(200)
                   constraints:
                     nullable: false
               - column:

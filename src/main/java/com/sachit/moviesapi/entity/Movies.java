@@ -17,7 +17,7 @@ public class Movies {
     private String movieTitle;
 
     @Column(name = "BOX_OFFICE_VALUE")
-    private Double boxOfficeValue;
+    private String boxOfficeValue;
 
     @Column(name = "RATING")
     private Double rating;
