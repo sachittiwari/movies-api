@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface MoviesRepository extends CrudRepository<Movies, Long> {
 
-    @Query("Select m from Movies m ORDER BY m.rating DESC,CAST(REPLACE(REPLACE(SUBSTRING(m.boxOfficeValue, 2), ',', ''),'/A','0') AS int) DESC")
+    @Query("Select m from Movies m ORDER BY m.rating DESC,CAST(REPLACE(REPLACE(SUBSTRING(m.boxOfficeValue, 2), ',', ''),'/A','0') AS int) DESC LIMIT 10")
     public List<Movies> findTop10ByRatingOrderByBoxOfficeValueDesc();
 
     public Optional<Movies> findByMovieTitleIgnoreCase(String movieTitle);
